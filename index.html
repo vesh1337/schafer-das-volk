@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schafer Das Volk</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+            background: #000;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            background: rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #fff;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 300;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #ccc;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: #fff;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(ellipse at center, #111 0%, #000 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: twinkle linear infinite;
+        }
+
+        .star::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #fff, transparent);
+            animation: sparkleH 3s ease-in-out infinite;
+        }
+
+        .star::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 1px;
+            height: 100%;
+            background: linear-gradient(0deg, transparent, #fff, transparent);
+            animation: sparkleV 3s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        @keyframes sparkleH {
+            0%, 100% { opacity: 0; width: 0%; }
+            50% { opacity: 1; width: 200%; }
+        }
+
+        @keyframes sparkleV {
+            0%, 100% { opacity: 0; height: 0%; }
+            50% { opacity: 1; height: 200%; }
+        }
+
+        .shooting-stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        .shooting-star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #fff;
+            animation: shoot 3s linear infinite;
+            opacity: 0;
+        }
+
+        .shooting-star::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -200px;
+            width: 200px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+            transform: translateY(-50%);
+        }
+
+        @keyframes shoot {
+            0% { 
+                opacity: 0;
+                transform: translateX(-100px) translateY(100px);
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { 
+                opacity: 0;
+                transform: translateX(calc(100vw + 100px)) translateY(-100px);
+            }
+        }
+
+        .hero-content {
+            text-align: center;
+            animation: heroFadeIn 2s ease-out;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            letter-spacing: 8px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            background: linear-gradient(45deg, #fff, #ccc, #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% 200%;
+            animation: gradientShift 4s ease-in-out infinite;
+            text-shadow: 0 0 50px rgba(255,255,255,0.3);
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            font-weight: 300;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            letter-spacing: 2px;
+            animation: heroSubtitle 2s ease-out 0.5s both;
+        }
+
+        @keyframes heroSubtitle {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 0.9;
+                transform: translateY(0);
+            }
+        }
+
+        .cta-button {
+            padding: 18px 45px;
+            background: transparent;
+            border: 2px solid #fff;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            transition: all 0.4s ease;
+            display: inline-block;
+            animation: heroButton 2s ease-out 1s both;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            transition: left 0.4s ease;
+            z-index: -1;
+        }
+
+        .cta-button:hover::before {
+            left: 0;
+        }
+
+        .cta-button:hover {
+            color: #000;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255,255,255,0.3);
+        }
+
+        @keyframes heroButton {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes heroFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Products Section */
+        .products {
+            padding: 120px 50px;
+            background: #000;
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 100px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: #fff;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease;
+        }
+
+        .section-title.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 50px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+            color: #fff;
+            overflow: hidden;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            border-radius: 0;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            opacity: 0;
+            transform: translateY(80px) rotateX(10deg);
+        }
+
+        .product-card.visible {
+            opacity: 1;
+            transform: translateY(0) rotateX(0deg);
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.03) 50%, transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .product-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .product-card:hover {
+            transform: translateY(-20px) rotateX(5deg) scale(1.03);
+            box-shadow: 0 25px 70px rgba(0,0,0,0.4);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 420px;
+            background: linear-gradient(135deg, #333, #666, #333);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .product-image::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 4px;
+            height: 4px;
+            background: rgba(255,255,255,0.6);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 
+                25px 25px 0 rgba(255,255,255,0.1),
+                -35px -15px 0 rgba(255,255,255,0.08),
+                45px -25px 0 rgba(255,255,255,0.05),
+                -55px 35px 0 rgba(255,255,255,0.03);
+            animation: sparkle 5s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .product-card:hover .product-image::before {
+            left: 100%;
+        }
+
+        .product-info {
+            padding: 35px;
+        }
+
+        .product-title {
+            font-size: 1.6rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .product-price {
+            font-size: 1.4rem;
+            font-weight: 300;
+            color: #ccc;
+            margin-bottom: 25px;
+        }
+
+        .product-description {
+            font-size: 1rem;
+            line-height: 1.7;
+            opacity: 0.85;
+            margin-bottom: 25px;
+        }
+
+        .buy-button {
+            width: 100%;
+            padding: 15px;
+            background: transparent;
+            border: 1px solid #fff;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .buy-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .buy-button:hover::before {
+            left: 0;
+        }
+
+        .buy-button:hover {
+            color: #000;
+        }
+
+        /* About Section */
+        .about {
+            padding: 120px 50px;
+            background: #000;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .about-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .about .section-title {
+            color: #fff;
+        }
+
+        .about p {
+            font-size: 1.3rem;
+            line-height: 2;
+            margin-bottom: 35px;
+            color: #ccc;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .about p.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 60px 50px;
+            background: rgba(0, 0, 0, 0.95);
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 50px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #fff;
+        }
+
+        .footer-section p, .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            line-height: 1.8;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #fff;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        .social-links a {
+            width: 45px;
+            height: 45px;
+            border: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .social-links a:hover {
+            background: #fff;
+            color: #000;
+            border-color: #fff;
+            transform: translateY(-3px);
+        }
+
+        /* Scroll animations */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease;
+        }
+
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease;
+        }
+
+        .slide-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s ease;
+        }
+
+        .slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+            }
+            
+            .nav-links {
+                gap: 20px;
+            }
+            
+            .hero h1 {
+                font-size: 3rem;
+                letter-spacing: 3px;
+            }
+            
+            .products {
+                padding: 80px 20px;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
+            
+            .product-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">Schafer Das Volk</div>
+            <ul class="nav-links">
+                <li><a href="#home">Главная</a></li>
+                <li><a href="#products">Коллекция</a></li>
+                <li><a href="#about">О нас</a></li>
+                <li><a href="#contact">Контакты</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="stars"></div>
+        <div class="shooting-stars"></div>
+        <div class="hero-content">
+            <h1>Schafer Das Volk</h1>
+            <p>Авангардная мода для современных людей</p>
+            <a href="#products" class="cta-button">Смотреть коллекцию</a>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="products">
+        <h2 class="section-title scroll-reveal">Новая коллекция</h2>
+        <div class="product-grid">
+            <div class="product-card slide-in-left">
+                <div class="product-image">HOODIE</div>
+                <div class="product-info">
+                    <h3 class="product-title">Black Oversized Hoodie</h3>
+                    <p class="product-price">$89</p>
+                    <p class="product-description">Минималистичная толстовка с объемным кроем. Премиальный хлопок высочайшего качества, контрастная вышивка фирменного логотипа.</p>
+                    <button class="buy-button">Купить</button>
+                </div>
+            </div>
+
+            <div class="product-card slide-in-right">
+                <div class="product-image">JACKET</div>
+                <div class="product-info">
+                    <h3 class="product-title">Utility Bomber</h3>
+                    <p class="product-price">$159</p>
+                    <p class="product-description">Функциональный бомбер в стиле милитари с техническими карманами. Водонепроницаемая ткань, современный силуэт, стильные детали.</p>
+                    <button class="buy-button">Купить</button>
+                </div>
+            </div>
+
+            <div class="product-card slide-in-left">
+                <div class="product-image">PANTS</div>
+                <div class="product-info">
+                    <h3 class="product-title">Cargo Pants</h3>
+                    <p class="product-price">$129</p>
+                    <p class="product-description">Брюки карго с техническими деталями и множеством функциональных элементов. Прочная ткань рипстоп, регулируемый пояс.</p>
+                    <button class="buy-button">Купить</button>
+                </div>
+            </div>
+
+            <div class="product-card slide-in-right">
+                <div class="product-image">T-SHIRT</div>
+                <div class="product-info">
+                    <h3 class="product-title">Statement Tee</h3>
+                    <p class="product-price">$49</p>
+                    <p class="product-description">Футболка с авторским графическим принтом. Органический хлопок премиум качества, свободный крой, уникальная дизайнерская графика.</p>
+                    <button class="buy-button">Купить</button>
+                </div>
+            </div>
+
+            <div class="product-card slide-in-left">
+                <div class="product-image">SNEAKERS</div>
+                <div class="product-info">
+                    <h3 class="product-title">Urban Runners</h3>
+                    <p class="product-price">$189</p>
+                    <p class="product-description">Городские кроссовки с футуристическим дизайном и передовыми технологиями. Дышащие материалы, амортизирующая подошва.</p>
+                    <button class="buy-button">Купить</button>
+                </div>
+            </div>
+
+            <div class="product-card slide-in-right">
+                <div class="product-image">CAP</div>
+                <div class="product-info">
+                    <h3 class="product-title">Logo Cap</h3>
+                    <p class="product-price">$39</p>
+                    <p class="product-description">Классическая кепка с минималистичным брендингом. Качественный хлопок, регулируемый ремешок, вышитый логотип.</p>
+                    <button class="buy-button">Купить</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="about-content">
+            <h2 class="section-title scroll-reveal">О бренде</h2>
+            <p class="fade-in-up">Schafer Das Volk — это синтез немецкой точности и современного уличного стиля. Мы создаем одежду для тех, кто ценит качество, функциональность и неординарность в каждой детали.</p>
+            <p class="fade-in-up">Каждая вещь в нашей коллекции — это результат тщательной работы над деталями, выбора лучших материалов и стремления к совершенству в каждом элементе дизайна и исполнения.</p>
+            <p class="fade-in-up">Наша философия проста: одежда должна быть не просто красивой, но и практичной, удобной и долговечной. Мы создаем вещи, которые прослужат годы и станут частью вашего стиля.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Контакты</h3>
+                <p>Email: info@schaferdasvolk.com</p>
+                <p>Телефон: +7 (495) 123-45-67</p>
+                <p>Адрес: Москва, ул. Тверская, 1</p>
+            </div>
+            <div class="footer-section">
+                <h3>Информация</h3>
+                <p><a href="#">Доставка и оплата</a></p>
+                <p><a href="#">Возврат и обмен</a></p>
+                <p><a href="#">Размерная сетка</a></p>
+                <p><a href="#">Уход за изделиями</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Следите за нами</h3>
+                <div class="social-links">
+                    <a href="#">IG</a>
+                    <a href="#">TG</a>
+                    <a href="#">VK</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Enhanced scroll animations with more effects
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all elements with scroll reveal classes
+        document.querySelectorAll('.scroll-reveal, .slide-in-left, .slide-in-right, .fade-in-up, .product-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Staggered animation for product cards
+        const productCards = document.querySelectorAll('.product-card');
+        productCards.forEach((card, index) => {
+            card.style.transitionDelay = `${index * 0.2}s`;
+        });
+
+        // Staggered animation for about paragraphs
+        const aboutParagraphs = document.querySelectorAll('.about p');
+        aboutParagraphs.forEach((p, index) => {
+            p.style.transitionDelay = `${index * 0.3}s`;
+        });
+
+        // Create stars
+        function createStars() {
+            const starsContainer = document.querySelector('.stars');
+            const starCount = 200;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                const size = Math.random() * 3 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 5 + 's';
+                star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                
+                if (size > 2) {
+                    star.style.boxShadow = `0 0 ${size * 2}px rgba(255,255,255,0.8)`;
+                }
+                
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Create shooting stars
+        function createShootingStars() {
+            const shootingStarsContainer = document.querySelector('.shooting-stars');
+            
+            function addShootingStar() {
+                const shootingStar = document.createElement('div');
+                shootingStar.classList.add('shooting-star');
+                
+                shootingStar.style.left = '-100px';
+                shootingStar.style.top = Math.random() * 50 + '%';
+                shootingStar.style.animationDuration = (Math.random() * 2 + 1) + 's';
+                
+                shootingStarsContainer.appendChild(shootingStar);
+                
+                setTimeout(() => {
+                    if (shootingStar.parentNode) {
+                        shootingStar.parentNode.removeChild(shootingStar);
+                    }
+                }, 3000);
+            }
+            
+            setInterval(addShootingStar, 3000 + Math.random() * 5000);
+        }
+
+        // Enhanced product card interactions
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-20px) rotateX(5deg) scale(1.03)';
+                this.style.boxShadow = '0 25px 70px rgba(0,0,0,0.4)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) rotateX(0deg) scale(1)';
+                this.style.boxShadow = '0 15px 40px rgba(0,0,0,0.3)';
+            });
+        });
+
+        // Enhanced buy button interactions
+        document.querySelectorAll('.buy-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const productTitle = this.parentElement.querySelector('.product-title').textContent;
+                
+                // Visual feedback
+                this.textContent = 'Добавлено в корзину!';
+                this.style.background = '#4CAF50';
+                this.style.borderColor = '#4CAF50';
+                this.style.color = '#fff';
+                
+                setTimeout(() => {
+                    this.textContent = 'Купить';
+                    this.style.background = 'transparent';
+                    this.style.borderColor = '#fff';
+                    this.style.color = '#fff';
+                }, 2000);
+                
+                // Show notification
+                showNotification(`${productTitle} добавлен в корзину!`);
+            });
+        });
+
+        // Notification system
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #000;
+                color: #fff;
+                padding: 15px 25px;
+                border-radius: 5px;
+                z-index: 10000;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+                box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Scroll event listener - no background change needed
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const header = document.querySelector('.header');
+            
+            // Update header opacity based on scroll
+            if (scrolled > 100) {
+                header.style.background = 'rgba(0, 0, 0, 0.5)';
+            } else {
+                header.style.background = 'rgba(0, 0, 0, 0.1)';
+            }
+        });
+
+        // Initialize everything
+        createStars();
+        createShootingStars();
+    </script>
+</body>
+</html>
